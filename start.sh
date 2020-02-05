@@ -1,13 +1,15 @@
 #!/bin/sh
 
-case "${DRIVER}" in
+case "${DB_DRIVER}" in
     postgres)
-        DSN="host=${HOST:-127.0.0.1} \
-            port=${PORT:-5432} \
-            dbname=${DB_NAME:-dev} \
-            user=${USER:-dev} \
-            password=${PASSWORD:-dev} \
-            sslmode=${SSL_MODE:-disable}"
+        if [ ! ${DB_DSN} ]; then
+            DB_DSN="host=${HOST:-127.0.0.1} \
+                port=${PORT:-5432} \
+                dbname=${DB_NAME:-dev} \
+                user=${USER:-dev} \
+                password=${PASSWORD:-dev} \
+                sslmode=${SSL_MODE:-disable}"
+        fi
         ;;
     *)
         echo "Driver not supported yet, abort"
@@ -16,6 +18,6 @@ case "${DRIVER}" in
 esac
 
 goose \
-    "${DRIVER}" \
-    "${DSN}" \
+    "${DB_DRIVER}" \
+    "${DB_DSN}" \
     $@
