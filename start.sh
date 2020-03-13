@@ -1,5 +1,7 @@
 #!/bin/sh
 
+DB_DRIVER=${DB_DRIVER:-postgres}
+
 case "${DB_DRIVER}" in
     postgres)
         if [ ! ${DB_DSN} ]; then
